@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NaBeauty – Jasa Makeup Profesional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #faf6f1;
+      --blush: #e8c4b0;
+      --rose: #c47f6a;
+      --deep: #3b2219;
+      --gold: #b5894a;
+      --light: #f5ede6;
+      --text: #4a2e22;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(250,246,241,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180,130,90,0.15);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .logo span { color: var(--rose); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 36px;
+    }
+    nav ul a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul a:hover { color: var(--rose); }
+
+    .nav-cta {
+      background: var(--deep);
+      color: var(--cream) !important;
+      padding: 10px 24px;
+      border-radius: 50px;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--rose) !important; color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 48px 80px;
+      gap: 60px;
+    }
+
+    .hero-text { animation: fadeUp 1s ease both; }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--deep);
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .hero p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #7a5544;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--deep);
+      color: var(--cream);
+      padding: 16px 36px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--rose); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(196,127,106,0.35); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--deep);
+      padding: 16px 36px;
+      border: 1.5px solid var(--deep);
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline:hover { background: var(--deep); color: var(--cream); }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeIn 1.2s ease both 0.3s;
+    }
+
+    .hero-card {
+      background: linear-gradient(145deg, #f0ddd3, #e8c4b0);
+      border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+      width: 100%;
+      aspect-ratio: 4/5;
+      max-width: 460px;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 120px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(59,34,25,0.15);
+    }
+
+    .hero-card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-card-emoji { font-size: 80px; }
+
+    .hero-card-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--deep);
+      opacity: 0.7;
+    }
+
+    .floating-badge {
+      position: absolute;
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 14px 20px;
+      box-shadow: 0 8px 32px rgba(59,34,25,0.12);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--deep);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .badge-1 { bottom: 30px; left: -20px; animation-delay: 0s; }
+    .badge-2 { top: 40px; right: -10px; animation-delay: 1.5s; }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf82; }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      color: var(--deep);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 15px;
+      color: #7a5544;
+      line-height: 1.8;
+      max-width: 500px;
+      margin-bottom: 60px;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--light); }
+
+    .services-header { text-align: center; }
+    .services-header .section-sub { margin: 0 auto 60px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--cream);
+      border-radius: 24px;
+      padding: 36px 32px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      border: 1px solid rgba(180,130,90,0.12);
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--blush), var(--rose));
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 0;
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-card:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(196,127,106,0.25); }
+    .service-card:hover * { color: white !important; }
+    .service-card:hover .service-price { background: rgba(255,255,255,0.2); }
+
+    .service-card > * { position: relative; z-index: 1; }
+
+    .service-icon { font-size: 36px; margin-bottom: 20px; display: block; }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 10px;
+    }
+    .service-desc {
+      font-size: 14px;
+      color: #7a5544;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .service-price {
+      display: inline-block;
+      background: var(--light);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--rose);
+      transition: background 0.4s;
+    }
+
+    .service-order-btn {
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+      background: var(--deep);
+      color: var(--cream) !important;
+      border: none;
+      padding: 12px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .service-card:hover .service-order-btn {
+      background: white !important;
+      color: var(--rose) !important;
+    }
+
+    /* ── GALLERY ── */
+    .gallery { background: var(--deep); color: var(--cream); }
+    .gallery .section-title { color: var(--cream); }
+    .gallery .section-label { color: var(--blush); }
+    .gallery .section-sub { color: rgba(250,246,241,0.65); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+
+    .gallery-item {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #5a3525, #3b2219);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .gallery-item:hover { transform: scale(1.02); }
+    .gallery-item.tall { grid-row: span 2; min-height: 420px; }
+
+    .gallery-placeholder {
+      font-size: 48px;
+      opacity: 0.5;
+    }
+    .gallery-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(250,246,241,0.15);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--cream);
+      letter-spacing: 1px;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-card {
+      background: linear-gradient(135deg, var(--blush), #d4a090);
+      border-radius: 32px;
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-stat {
+      position: absolute;
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 16px 24px;
+      box-shadow: 0 8px 32px rgba(59,34,25,0.15);
+    }
+    .about-stat.s1 { bottom: -20px; right: -20px; }
+    .about-stat.s2 { top: 30px; left: -20px; }
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .about-stat-label { font-size: 12px; color: #7a5544; margin-top: 4px; }
+
+    .about-text .section-label { margin-bottom: 12px; }
+    .about-text .section-title { margin-bottom: 20px; }
+    .about-text p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #7a5544;
+      margin-bottom: 16px;
+    }
+
+    .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--rose);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      margin-top: 8px;
+      transition: gap 0.3s;
+    }
+    .ig-link:hover { gap: 16px; }
+
+    /* ── ORDER MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(59,34,25,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--cream);
+      border-radius: 28px;
+      padding: 48px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(30px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+      position: relative;
+    }
+    .modal-overlay.active .modal { transform: translateY(0) scale(1); }
+
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--light);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--blush); }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 6px;
+    }
+    .modal-sub {
+      font-size: 14px;
+      color: #7a5544;
+      margin-bottom: 32px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid rgba(180,130,90,0.2);
+      border-radius: 14px;
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--rose); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .btn-wa {
+      width: 100%;
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+    .btn-wa:hover { background: #1db954; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(37,211,102,0.35); }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--deep);
+      color: var(--cream);
+      text-align: center;
+    }
+    .contact .section-title { color: var(--cream); }
+    .contact .section-sub { color: rgba(250,246,241,0.65); margin: 0 auto 48px; text-align: center; }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .contact-card {
+      background: rgba(250,246,241,0.08);
+      border: 1px solid rgba(250,246,241,0.12);
+      border-radius: 20px;
+      padding: 28px 36px;
+      min-width: 200px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .contact-card:hover { background: rgba(250,246,241,0.14); }
+    .contact-card-icon { font-size: 28px; margin-bottom: 12px; }
+    .contact-card-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blush); margin-bottom: 8px; }
+    .contact-card-value { font-size: 15px; color: var(--cream); font-weight: 400; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #2a1810;
+      color: rgba(250,246,241,0.5);
+      text-align: center;
+      padding: 28px;
+      font-size: 13px;
+    }
+    footer strong { color: var(--blush); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
+      .hero-visual { order: -1; }
+      .hero-card { max-width: 320px; margin: 0 auto; }
+      section { padding: 72px 24px; }
+      .about { grid-template-columns: 1fr; gap: 40px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item.tall { grid-row: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">Na<span>Beauty</span></div>
+  <ul>
+    <li><a href="#services">Layanan</a></li>
+    <li><a href="#gallery">Portofolio</a></li>
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#contact">Kontak</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal('Konsultasi')">Book Sekarang</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Professional Makeup Artist</div>
+    <h1>
+      Cantikmu<br>
+      Adalah <em>Seni</em><br>
+      Kami
+    </h1>
+    <p>
+      Makeup bukan sekadar tampilan — ini tentang kepercayaan diri yang kamu rasakan.
+      Aluna Amaura hadir untuk menghadirkan riasan yang elegan, tahan lama, dan benar-benar <em>kamu</em>.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary" onclick="openModal('Booking')">✨ Book Sekarang</a>
+      <a href="#services" class="btn-outline">Lihat Layanan</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-inner">
+        <span class="hero-card-emoji">💄</span>
+        <span class="hero-card-text">nabeauty</span>
+      </div>
+    </div>
+    <div class="floating-badge badge-1">
+      <span class="badge-dot"></span>
+      Tersedia untuk booking
+    </div>
+    <div class="floating-badge badge-2">
+      ⭐ Profesional & Berpengalaman
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div class="section-label">Layanan Kami</div>
+    <h2 class="section-title">Pilih Paket <em style="font-style:italic;color:var(--rose)">Riasanmu</em></h2>
+    <p class="section-sub">Setiap momen spesial layak mendapat tampilan terbaik. Kami siap merias kamu dengan penuh cinta dan keahlian.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <span class="service-icon">👰</span>
+      <div class="service-name">Makeup Pengantin</div>
+      <p class="service-desc">Riasan pernikahan lengkap — dari akad hingga resepsi. Tahan lama, elegan, dan sesuai tema pernikahanmu.</p>
+      <span class="service-price">Mulai dari Rp 500.000</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Makeup Pengantin')">📲 Pesan via WhatsApp</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🎓</span>
+      <div class="service-name">Makeup Wisuda</div>
+      <p class="service-desc">Tampil memukau di hari wisudamu! Riasan natural glam yang cantik di foto maupun langsung.</p>
+      <span class="service-price">Mulai dari Rp 200.000</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Makeup Wisuda')">📲 Pesan via WhatsApp</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🎉</span>
+      <div class="service-name">Makeup Pesta</div>
+      <p class="service-desc">Buat pesta ulang tahun, lamaran, atau acara keluarga jadi lebih berkesan dengan riasan glam-mu.</p>
+      <span class="service-price">Mulai dari Rp 150.000</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Makeup Pesta')">📲 Pesan via WhatsApp</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">📸</span>
+      <div class="service-name">Makeup Foto / Konten</div>
+      <p class="service-desc">Riasan khusus untuk sesi foto studio, konten kreator, atau kebutuhan media sosialmu.</p>
+      <span class="service-price">Mulai dari Rp 175.000</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Makeup Foto/Konten')">📲 Pesan via WhatsApp</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🏫</span>
+      <div class="service-name">Makeup Sehari-hari</div>
+      <p class="service-desc">Tampil segar dan percaya diri setiap hari — cocok untuk ke kantor, kampus, atau hangout.</p>
+      <span class="service-price">Mulai dari Rp 100.000</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Makeup Sehari-hari')">📲 Pesan via WhatsApp</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">💬</span>
+      <div class="service-name">Konsultasi Gratis</div>
+      <p class="service-desc">Tidak yakin paket mana yang cocok? Hubungi kami untuk konsultasi gratis seputar riasan terbaikmu.</p>
+      <span class="service-price">Gratis!</span>
+      <a href="#" class="service-order-btn" onclick="openModal('Konsultasi Gratis')">📲 Chat di WhatsApp</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-label">Portofolio</div>
+  <h2 class="section-title">Karya <em style="font-style:italic;color:var(--blush)">Kami</em></h2>
+  <p class="section-sub" style="color:rgba(250,246,241,0.65);margin-bottom:48px;">Setiap wajah punya cerita. Kami dengan bangga menjadi bagian dari cerita cantikmu.</p>
+
+  <div class="gallery-grid">
+    <div class="gallery-item tall">
+      <span class="gallery-placeholder">💄</span>
+      <span class="gallery-label">Makeup Pengantin</span>
+    </div>
+    <div class="gallery-item">
+      <span class="gallery-placeholder">🌸</span>
+      <span class="gallery-label">Makeup Wisuda</span>
+    </div>
+    <div class="gallery-item">
+      <span class="gallery-placeholder">✨</span>
+      <span class="gallery-label">Makeup Pesta</span>
+    </div>
+    <div class="gallery-item">
+      <span class="gallery-placeholder">📸</span>
+      <span class="gallery-label">Foto & Konten</span>
+    </div>
+    <div class="gallery-item">
+      <span class="gallery-placeholder">🎀</span>
+      <span class="gallery-label">Natural Look</span>
+    </div>
+  </div>
+  <p style="color:rgba(250,246,241,0.5);font-size:13px;margin-top:24px;text-align:center;">
+    📷 Lihat lebih banyak karya di Instagram
+    <a href="https://instagram.com/alunaa.c" target="_blank" style="color:var(--blush);text-decoration:none;font-weight:500;"> @alunaa.c</a>
+  </p>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about">
+    <div class="about-visual">
+      <div class="about-card">
+        <span style="font-size:72px;">💁‍♀️</span>
+      </div>
+      <div class="about-stat s1">
+        <div class="about-stat-num">100+</div>
+        <div class="about-stat-label">Klien Puas</div>
+      </div>
+      <div class="about-stat s2">
+        <div class="about-stat-num">5⭐</div>
+        <div class="about-stat-label">Rating Klien</div>
+      </div>
+    </div>
+
+    <div class="about-text">
+      <div class="section-label">Tentang Kami</div>
+      <h2 class="section-title">Aluna<br><em style="font-style:italic;color:var(--rose)">Amaura Chour</em></h2>
+      <p>
+        Halo! Saya Aluna Amaura Chour, makeup artist profesional yang berbasis di Ngawi, Jawa Timur.
+        Saya percaya bahwa setiap perempuan berhak tampil cantik dan percaya diri di setiap momennya.
+      </p>
+      <p>
+        Dengan pengalaman merias berbagai jenis acara — dari pernikahan hingga pemotretan —
+        saya berkomitmen untuk memberikan hasil terbaik yang sesuai dengan keinginan dan karakter wajahmu.
+      </p>
+      <p>
+        📍 Berbasis di Dsn. Ngampon, Karang Banyu, Widodaren, Ngawi.<br>
+        Siap melayani home service di area sekitar!
+      </p>
+      <a href="https://instagram.com/alunaa.c" target="_blank" class="ig-link">
+        📷 Follow @alunaa.c di Instagram →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label" style="color:var(--blush);text-align:center;">Hubungi Kami</div>
+  <h2 class="section-title">Siap Tampil <em style="font-style:italic;color:var(--blush)">Cantik?</em></h2>
+  <p class="section-sub">Jangan ragu untuk menghubungi kami. Kami dengan senang hati akan membantu kamu merencanakan riasan impianmu.</p>
+
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-card-icon">📱</div>
+      <div class="contact-card-label">WhatsApp</div>
+      <div class="contact-card-value">083103000600</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">📸</div>
+      <div class="contact-card-label">Instagram</div>
+      <div class="contact-card-value">@alunaa.c</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">📍</div>
+      <div class="contact-card-label">Lokasi</div>
+      <div class="contact-card-value">Widodaren, Ngawi</div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <a href="#" class="btn-primary" onclick="openModal('Booking')" style="font-size:16px;padding:18px 48px;">
+      💬 Chat Langsung di WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>NaBeauty</strong> by Aluna Amaura Chour · Ngawi, Jawa Timur · All rights reserved</p>
+</footer>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">Form Order 💄</div>
+    <p class="modal-sub">Isi form berikut, lalu kami langsung kirimkan ke WhatsApp!</p>
+
+    <div class="form-group">
+      <label>Nama Lengkap</label>
+      <input type="text" id="f-name" placeholder="Nama kamu..."/>
+    </div>
+    <div class="form-group">
+      <label>Nomor WhatsApp</label>
+      <input type="tel" id="f-wa" placeholder="08xxxxxxxxxx"/>
+    </div>
+    <div class="form-group">
+      <label>Jenis Layanan</label>
+      <select id="f-service">
+        <option value="">-- Pilih Layanan --</option>
+        <option value="Makeup Pengantin">💍 Makeup Pengantin</option>
+        <option value="Makeup Wisuda">🎓 Makeup Wisuda</option>
+        <option value="Makeup Pesta">🎉 Makeup Pesta</option>
+        <option value="Makeup Foto/Konten">📸 Makeup Foto / Konten</option>
+        <option value="Makeup Sehari-hari">🏫 Makeup Sehari-hari</option>
+        <option value="Konsultasi Gratis">💬 Konsultasi Gratis</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tanggal Acara</label>
+      <input type="date" id="f-date"/>
+    </div>
+    <div class="form-group">
+      <label>Lokasi Acara / Home Service</label>
+      <input type="text" id="f-location" placeholder="Alamat lengkap..."/>
+    </div>
+    <div class="form-group">
+      <label>Catatan Tambahan (opsional)</label>
+      <textarea id="f-note" placeholder="Referensi makeup, tema, dll..."></textarea>
+    </div>
+
+    <button class="btn-wa" onclick="sendToWhatsApp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Kirim ke WhatsApp Sekarang
+    </button>
+  </div>
+</div>
+
+<script>
+  const WA_NUMBER = '6283103000600';
+
+  function openModal(service) {
+    const modal = document.getElementById('orderModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if (service && service !== 'Booking' && service !== 'Konsultasi') {
+      document.getElementById('f-service').value = service;
+    }
+    return false;
+  }
+
+  function closeModal() {
+    document.getElementById('orderModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('orderModal')) closeModal();
+  }
+
+  function sendToWhatsApp() {
+    const name     = document.getElementById('f-name').value.trim();
+    const wa       = document.getElementById('f-wa').value.trim();
+    const service  = document.getElementById('f-service').value;
+    const date     = document.getElementById('f-date').value;
+    const location = document.getElementById('f-location').value.trim();
+    const note     = document.getElementById('f-note').value.trim();
+
+    if (!name || !service) {
+      alert('Mohon isi minimal Nama dan Jenis Layanan ya! 🌸');
+      return;
+    }
+
+    const dateStr = date ? new Date(date).toLocaleDateString('id-ID', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '-';
+
+    const msg = `Halo Kak Aluna! 💄✨
+
+Saya ingin memesan jasa makeup NaBeauty:
+
+👤 *Nama:* ${name}
+📱 *WhatsApp:* ${wa || '-'}
+💄 *Layanan:* ${service}
+📅 *Tanggal Acara:* ${dateStr}
+📍 *Lokasi:* ${location || '-'}
+📝 *Catatan:* ${note || '-'}
+
+Mohon info lebih lanjut ya, terima kasih! 🙏`;
+
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    closeModal();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
